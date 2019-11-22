@@ -22,13 +22,13 @@ import net.fortuna.ical4j.util.UidGenerator;
 public class CustomCalendar{
 	public static void main(String[] args) {
 		String [] labels = {"C","H","A","P","I","N"};
-		ArrayList<DayOfWeek> cycleDays = new ArrayList<DayOfWeek>(Arrays.asList(
+		ArrayList<DayOfWeek> cycleDays = new ArrayList<>(Arrays.asList(
 				DayOfWeek.MONDAY,
 				DayOfWeek.TUESDAY,
 				DayOfWeek.WEDNESDAY,
 				DayOfWeek.THURSDAY,
 				DayOfWeek.FRIDAY));
-		ArrayList<LocalDate> excludeDays = new ArrayList<LocalDate>(Arrays.asList(
+		ArrayList<LocalDate> excludeDays = new ArrayList<>(Arrays.asList(
 				LocalDate.parse("2019-12-25"),
 				LocalDate.parse("2019-12-25").plusDays(1),
 				LocalDate.parse("2019-12-25").plusDays(2),
@@ -39,7 +39,7 @@ public class CustomCalendar{
 				LocalDate.parse("2019-12-25").plusDays(7)));
 		//Javalin app = Javalin.create().start(7000);
 		System.out.println("Building Calendar:\t"+java.time.LocalTime.now());
-		CCalendar c = new CCalendar("2019-11-04", 1, labels, cycleDays, excludeDays);
+		CCalendar c = new CCalendar("2019-11-04", 50, labels, cycleDays, excludeDays);
 		System.out.println("Calendar Build done:\t"+java.time.LocalTime.now());
 		System.out.println("Adding Event...\t"+java.time.LocalTime.now());
 		c.addEvent(sampleEvent());
@@ -48,7 +48,7 @@ public class CustomCalendar{
 		System.out.println(c);
 		c.export();
 	}
-	static VEvent sampleEvent(){
+	private static VEvent sampleEvent(){
 		// Create a TimeZone
 		TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
 		TimeZone timezone = registry.getTimeZone("America/Mexico_City");
