@@ -1,28 +1,63 @@
+import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.Uid;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+//import java.util.Date;
 
 public class CCEvent {
     private long time;
     private long duration;
     private String eventName;
     private String summary;
-    CCEvent(long start, long duration, String name){
-        //super(start, end, name);
-        time = start;
-        this.duration = duration;
+    private Uid uid;
+    private int sHr;
+    private int sMin;
+    private int sSec;
+    private int eHr;
+    private int eMin;
+    private int eSec;
+
+    CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name){
+        sHr = startHr;
+        sMin = startMin;
+        sSec = startSec;
+        eHr = endHr;
+        eMin = endMin;
+        eSec = endSec;
         eventName = name;
+        this.uid = uid;
     }
-    CCEvent(long start, long duration, String name, String summary){
-        this(start, duration, name);
+    CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name, String summary){
+        this(uid, startHr, startMin, startSec, endHr, endMin, endSec, name);
         this.summary = summary;
     }
-    VEvent toVEvent(DateTime date, Uid uid){
-        long start = date.getTime()-date.getTime()%86400000+time;
-        long end = start+duration;
-        VEvent out = new VEvent(new DateTime(new java.util.Date(start)),new DateTime(new java.util.Date(start+duration)),eventName);
+    VEvent toVEvent(Calendar cal){
+        cal.set(Calendar.HOUR_OF_DAY,sHr);
+        cal.set(Calendar.MINUTE,sMin);
+        cal.set(Calendar.SECOND,sSec);
+        DateTime start = new DateTime(cal.getTime());
+        cal.set(Calendar.HOUR_OF_DAY,eHr);
+        cal.set(Calendar.MINUTE,eMin);
+        cal.set(Calendar.SECOND,eSec);
+        DateTime end = new DateTime(cal.getTime());
+        //long end = start+duration;
+        VEvent out = new VEvent(start,end,eventName);
         out.getProperties().add(uid);
+
         return out;
+    }
+    String getSummary(){
+        return summary;
+    }
+    String getEventName(){
+        return eventName;
+    }
+    Uid getUid(){
+        return uid;
     }
 }

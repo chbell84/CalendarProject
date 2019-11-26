@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.net.SocketException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Date;
@@ -25,60 +21,70 @@ import net.fortuna.ical4j.util.UidGenerator;
  */
 public class CCalendar {
 	private int totalCycles;
-	private ArrayList<HashMap<String, List<VEvent>>> cycles;
+	private HashMap<String, List<CCEvent>>[] cycles;
 	private String[] dayLabels;
 	private ArrayList<DayOfWeek> weekdays;
 	private ArrayList<LocalDate> excludeDays;
 	private net.fortuna.ical4j.model.Calendar cal;
 	private java.util.Calendar tempCal;
 	private UidGenerator ug;
+	private LocalDate date;
 
-	CCalendar(String startDay, int numCycles, String[] labels){
+	CCalendar(Calendar startDay, int numCycles, String[] labels){
 		this(startDay,numCycles,labels,new ArrayList<>(Arrays.asList(DayOfWeek.values())),new ArrayList<>());
 	}
-	CCalendar(String startDay, int numCycles, String[] labels, ArrayList<DayOfWeek> cycleDays){
+	CCalendar(Calendar startDay, int numCycles, String[] labels, ArrayList<DayOfWeek> cycleDays){
 		this(startDay,numCycles,labels,cycleDays,new ArrayList<>());
 	}
-	CCalendar(String startDay, int numCycles, String[] labels, ArrayList<DayOfWeek> cycleDays, ArrayList<LocalDate> excludeList){
+	CCalendar(Calendar startDay, int numCycles, String[] labels, ArrayList<DayOfWeek> cycleDays, ArrayList<LocalDate> excludeList){
 		try {
 			ug = new UidGenerator("1");
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		cal = new net.fortuna.ical4j.model.Calendar();
-		tempCal = new GregorianCalendar();
 		totalCycles = numCycles;
-		cycles = new ArrayList<>();
-		LocalDate date = LocalDate.parse(startDay);
+		cycles = new HashMap[numCycles];
+		date = LocalDate.of(startDay.get(Calendar.YEAR),startDay.get(Calendar.MONTH),startDay.get(Calendar.DAY_OF_MONTH));
 		dayLabels = labels;
 		weekdays = cycleDays;
 		excludeDays=excludeList;
-		build(date);
+		tempCal = startDay;
+		for(int i=0;i<numCycles;i++){
+			cycles[i] = new HashMap<String, List<CCEvent>>();
+			for(String s:labels){
+				cycles[i].put(s, new ArrayList<CCEvent>());
+			}
+		}
+		//build(date);
 	}
-	private void build(LocalDate date) {
+	private void build() {
+		cal = new net.fortuna.ical4j.model.Calendar();
 		cal.getProperties().add(new ProdId("-//Charles Bell//trying something//EN"));
 		cal.getProperties().add(Version.VERSION_2_0);
 		cal.getProperties().add(CalScale.GREGORIAN);
+		//tempCal = new GregorianCalendar();
+		LocalDate futureDate = date;
 		for(int i=0;i<totalCycles;i++) {
-			HashMap<String, List<VEvent>> cycle = new HashMap<>();
 			for(String l : dayLabels) {
-				cycle.put(l, new ArrayList<>());
+				//avoid weekends and holidays
+				while(!weekdays.contains(futureDate.getDayOfWeek())||excludeDays.contains(futureDate)) futureDate=futureDate.plusDays(1);
 				tempCal.clear();
-				tempCal.set(date.getYear(),date.getMonthValue()-1,date.getDayOfMonth());
+				tempCal.set(futureDate.getYear(),futureDate.getMonthValue()-1,futureDate.getDayOfMonth());
 				Date d = new Date(tempCal.getTime());
 				VEvent day = new VEvent(d,l);
 
 				// Generate a UID for the event..
 				day.getProperties().add(ug.generateUid());
 				cal.getComponents().add(day);
-				int n=1;
-				while(!weekdays.contains(date.plusDays(n).getDayOfWeek())||excludeDays.contains(date.plusDays(n))) n++;
-				date=date.plusDays(n);
+				for(CCEvent e:cycles[i].get(l)) cal.getComponents().add(e.toVEvent((Calendar) tempCal.clone()));
+
+				//increment the day
+				futureDate=futureDate.plusDays(1);
 			}
-			cycles.add(cycle);
 		}
 	}
 	public String toString(){
+		build();
 		return cal.toString();
 	}
 	public int length() {
@@ -87,7 +93,17 @@ public class CCalendar {
 	public void addEvent(VEvent event){
 		cal.getComponents().add(event);
 	}
+	public void addEvent(String CDay, int cycle, CCEvent e){
+		cycles[cycle].get(CDay).add(e);
+	}
+	public void addEvent(String CDay, int cycle, String name, String summary, int hr, int min, int sec, int endHr, int endMin, int endSec){
+		//long start = hr*3600000L+ min+60000L+sec*1000L;
+		CCEvent e = new CCEvent(ug.generateUid(), hr, min, sec, endHr, endMin, endSec, name, summary);
+		cycles[cycle].get(CDay).add(e);
+	}
+
 	public void export() {
+		build();
 		try {
 			FileOutputStream fout = new FileOutputStream("MyCalendar.ics");
 

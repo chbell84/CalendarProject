@@ -39,10 +39,16 @@ public class CustomCalendar{
 				LocalDate.parse("2019-12-25").plusDays(7)));
 		//Javalin app = Javalin.create().start(7000);
 		System.out.println("Building Calendar:\t"+java.time.LocalTime.now());
-		CCalendar c = new CCalendar("2019-11-04", 50, labels, cycleDays, excludeDays);
+		// Create a TimeZone
+		TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
+		TimeZone timezone = registry.getTimeZone("America/New_York");
+		VTimeZone tz = timezone.getVTimeZone();
+		java.util.Calendar startDate = GregorianCalendar.getInstance(timezone);
+
+		CCalendar c = new CCalendar(startDate, 40, labels, cycleDays, excludeDays);
 		System.out.println("Calendar Build done:\t"+java.time.LocalTime.now());
 		System.out.println("Adding Event...\t"+java.time.LocalTime.now());
-		c.addEvent(sampleEvent());
+		c.addEvent(labels[3],3,"Test Event","In this test event we shoot the shit",13,00,00,14,00,00);
 		System.out.println("Added\t"+java.time.LocalTime.now());
 		//app.get("/", ctx -> ctx.result("Hello World"));
 		System.out.println(c);
@@ -51,7 +57,7 @@ public class CustomCalendar{
 	private static VEvent sampleEvent(){
 		// Create a TimeZone
 		TimeZoneRegistry registry = TimeZoneRegistryFactory.getInstance().createRegistry();
-		TimeZone timezone = registry.getTimeZone("America/Mexico_City");
+		TimeZone timezone = registry.getTimeZone("America/New_York");
 		VTimeZone tz = timezone.getVTimeZone();
 
 		// Start Date is on: April 1, 2008, 9:00 am
