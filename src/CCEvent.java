@@ -1,11 +1,10 @@
-import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.Uid;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 //import java.util.Date;
 
@@ -13,7 +12,7 @@ public class CCEvent {
     private long time;
     private long duration;
     private String eventName;
-    private String summary;
+    private String description;
     private Uid uid;
     private int sHr;
     private int sMin;
@@ -21,6 +20,7 @@ public class CCEvent {
     private int eHr;
     private int eMin;
     private int eSec;
+    private PropertyList pList;
 
     CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name){
         sHr = startHr;
@@ -31,10 +31,11 @@ public class CCEvent {
         eSec = endSec;
         eventName = name;
         this.uid = uid;
+        pList = new PropertyList();
     }
-    CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name, String summary){
+    CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name, String description){
         this(uid, startHr, startMin, startSec, endHr, endMin, endSec, name);
-        this.summary = summary;
+        this.description = description;
     }
     VEvent toVEvent(Calendar cal){
         cal.set(Calendar.HOUR_OF_DAY,sHr);
@@ -47,12 +48,16 @@ public class CCEvent {
         DateTime end = new DateTime(cal.getTime());
         //long end = start+duration;
         VEvent out = new VEvent(start,end,eventName);
+        out.getProperties().add(new Description(description));
         out.getProperties().add(uid);
 
         return out;
     }
-    String getSummary(){
-        return summary;
+    PropertyList getProperties(){
+        return pList;
+    }
+    String getDescription(){
+        return description;
     }
     String getEventName(){
         return eventName;

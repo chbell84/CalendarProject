@@ -97,7 +97,6 @@ public class CCalendar {
 		cycles[cycle].get(CDay).add(e);
 	}
 	public void addEvent(String CDay, int cycle, String name, String summary, int hr, int min, int sec, int endHr, int endMin, int endSec){
-		//long start = hr*3600000L+ min+60000L+sec*1000L;
 		CCEvent e = new CCEvent(ug.generateUid(), hr, min, sec, endHr, endMin, endSec, name, summary);
 		cycles[cycle].get(CDay).add(e);
 	}
