@@ -51,7 +51,12 @@ public class CustomCalendar{
 		c.addEvent(labels[3],3,"Test Event","In this test event we shoot the shit",13,00,00,14,00,00);
 		System.out.println("Added\t"+java.time.LocalTime.now());
 		//app.get("/", ctx -> ctx.result("Hello World"));
-		System.out.println(c);
+		System.out.println(c.getEvents(labels[3],3));
+		c.removeEvent(labels[3],3, (CCEvent) c.getEvents(labels[3],3).values().toArray()[0]);
+		System.out.println(c.getEvents(labels[3],3));
+		c.setExcludeDays(new ArrayList<>(Arrays.asList(
+				LocalDate.parse("2019-12-25"))));
+		c.addExcludeDay(LocalDate.parse("2020-01-15"));
 		c.export();
 	}
 	private static VEvent sampleEvent(){

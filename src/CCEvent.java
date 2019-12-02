@@ -1,8 +1,7 @@
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.*;
 
 import java.util.Calendar;
 
@@ -32,10 +31,13 @@ public class CCEvent {
         eventName = name;
         this.uid = uid;
         pList = new PropertyList();
+        pList.add(uid);
+        pList.add(new Summary(name));
     }
     CCEvent(Uid uid, int startHr, int startMin, int startSec, int endHr, int endMin, int endSec, String name, String description){
         this(uid, startHr, startMin, startSec, endHr, endMin, endSec, name);
         this.description = description;
+        pList.add(new Description(description));
     }
     VEvent toVEvent(Calendar cal){
         cal.set(Calendar.HOUR_OF_DAY,sHr);
@@ -46,11 +48,9 @@ public class CCEvent {
         cal.set(Calendar.MINUTE,eMin);
         cal.set(Calendar.SECOND,eSec);
         DateTime end = new DateTime(cal.getTime());
-        //long end = start+duration;
         VEvent out = new VEvent(start,end,eventName);
         out.getProperties().add(new Description(description));
         out.getProperties().add(uid);
-
         return out;
     }
     PropertyList getProperties(){
