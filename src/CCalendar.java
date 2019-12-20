@@ -102,6 +102,15 @@ public class CCalendar {
 		CCEvent e = new CCEvent(u, hr, min, sec, endHr, endMin, endSec, name, summary);
 		cycles[cycle].get(CDay).put(u,e);
 	}
+	public void addEvent(String[] days, String name, String summary, int hr, int min, int sec, int endHr, int endMin, int endSec){
+		for(HashMap<String, HashMap<Uid, CCEvent>> cycle:cycles){
+			for(String day:days){
+				Uid u = ug.generateUid();
+				CCEvent e = new CCEvent(u, hr, min, sec, endHr, endMin, endSec, name, summary);
+				cycle.get(day).put(u,e);
+			}
+		}
+	}
 	public void removeEvent(String CDay, int cycle,  CCEvent e){
 		cycles[cycle].get(CDay).remove(e.getUid());
 	}

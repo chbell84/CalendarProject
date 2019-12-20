@@ -21,11 +21,11 @@ import net.fortuna.ical4j.util.UidGenerator;
 
 public class CustomCalendar{
 	public static void main(String[] args) {
-		String [] labels = {"C","H","A","P","I","N"};
+		String [] labels = {"a","b","c","d","e"};
 		ArrayList<DayOfWeek> cycleDays = new ArrayList<>(Arrays.asList(
 				DayOfWeek.MONDAY,
 				DayOfWeek.TUESDAY,
-				DayOfWeek.WEDNESDAY,
+				//DayOfWeek.WEDNESDAY,
 				DayOfWeek.THURSDAY,
 				DayOfWeek.FRIDAY));
 		ArrayList<LocalDate> excludeDays = new ArrayList<>(Arrays.asList(
@@ -48,11 +48,16 @@ public class CustomCalendar{
 		CCalendar c = new CCalendar(startDate, 40, labels, cycleDays, excludeDays);
 		System.out.println("Calendar Build done:\t"+java.time.LocalTime.now());
 		System.out.println("Adding Event...\t"+java.time.LocalTime.now());
-		c.addEvent(labels[3],3,"Test Event","In this test event we shoot the shit",13,00,00,14,00,00);
+		//c.addEvent(labels[3],3,"Test Event","In this test event we shoot the shit",13,00,00,14,00,00);
+		c.addEvent(new String[]{"a","e","c"},"Math 6a","In this test event we shoot the shit",13,00,00,14,00,00);
+		c.addEvent(new String[]{"a","e","c"},"Math 6b","In this test event we shoot the shit",11,00,00,12,00,00);
+		c.addEvent(new String[]{"a","e","c"},"Algebra 1c","In this test event we shoot the shit",9,00,00,10,00,00);
+		c.addEvent(new String[]{"a","e","c"},"Math 7b","In this test event we shoot the shit",14,00,00,15,00,00);
+		c.addEvent(new String[]{"b","d"},"Calculus AB","In this test event we shoot the shit",14,00,00,15,00,00);
 		System.out.println("Added\t"+java.time.LocalTime.now());
 		//app.get("/", ctx -> ctx.result("Hello World"));
 		System.out.println(c.getEvents(labels[3],3));
-		c.removeEvent(labels[3],3, (CCEvent) c.getEvents(labels[3],3).values().toArray()[0]);
+		//c.removeEvent(labels[3],3, (CCEvent) c.getEvents(labels[3],3).values().toArray()[0]);
 		System.out.println(c.getEvents(labels[3],3));
 		c.setExcludeDays(new ArrayList<>(Arrays.asList(
 				LocalDate.parse("2019-12-25"))));
