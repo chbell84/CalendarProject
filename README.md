@@ -81,7 +81,7 @@
         <td>Section A</td>
     </tr>
 </table>
-<h3>How does it work</p>
+<h3>How does it work</h3>
 <p>The project consists of two main classes</p>
 <ul>
 <li>CCalendar<p>This class contains the psudocalendar. It takes events, day labels, as well as dates to exclude. I also contains the function that exports all that information into an iCalendar file.</p></li>
