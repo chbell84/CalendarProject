@@ -30,10 +30,10 @@
     <tr>
         <th>Week 4</th>
         <td>E Day</td>
+        <td>Holiday: No Class</td>
         <td>A Day</td>
         <td>B Day</td>
         <td>C Day</td>
-        <td>D Day</td>
     </tr>
 </table>
 
@@ -41,7 +41,9 @@
 <p>The main of appeal of these kinds of scheduling systems comes from their ability to pause for or map around breaks in instruction. </p>
 
 <p>In the example below, Section A and Section B represent to sections of the same course under a traditional scheduling system. Typically in such a system, classes that meet on Tuesdays and Thursdays do so for longer than classes that meet every Monday, Wendesday and Friday so that Sections A and B meet for an equal amount of time in any given week.</p>
-<p>Here, there is a holiday in the first week, keeping Section B from meeting. At the end of the month, Section B has 12.5% less instructional time as Section A.</p>
+<p>In both calendars there are two Tuesday holidays within four week span, keeping Section B from meeting. At the end of the month, Section B has 25% less instructional time as Section A.</p>
+<p>The flexible calendar can easily adjust for the holiday by adding a couple of days to the semester so that there can be four complete cycles. The cycles themselves map around the holidays so that there are no course disruptions.</p>
+<p>In a traditional calendar would need to add two Tuesday classes one day after another which wouldn't fall into the typical rythim of the school year.</p>
 
 <table>
     <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>
@@ -72,7 +74,7 @@
     <tr>
         <th>Week 4</th>
         <td>Section A</td>
-        <td>Section B</td>
+        <td>Holiday: No Class</td>
         <td>Section A</td>
         <td>Section B</td>
         <td>Section A</td>
