@@ -4,41 +4,12 @@
 The idea is to programmatically represent events that recur outside of the rhythm of a five or seven day week. The inciting example is a school that schedules classes according to a custom day-cycle but whose classes still occur Monday-Friday. I have an example illustrated in the table below.
 
 
-<table>
-    <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>
-    <tr>
-        <th>Week 1</th>
-        <td>A Day</td>
-        <td>Holiday: No Class</td>
-        <td>B Day</td>
-        <td>C Day</td>
-        <td>D Day</td>
-    </tr>
-    <tr>
-        <th>Week 2</th>
-        <td>E Day</td>
-        <td>A Day</td>
-        <td>B Day</td>
-        <td>C Day</td>
-        <td>D Day</td>
-    </tr>
-    <tr>
-        <th>Week 3</th>
-        <td>E Day</td>
-        <td>A Day</td>
-        <td>B Day</td>
-        <td>C Day</td>
-        <td>D Day</td>
-    </tr>
-    <tr>
-        <th>Week 4</th>
-        <td>E Day</td>
-        <td>Holiday: No Class</td>
-        <td>A Day</td>
-        <td>B Day</td>
-        <td>C Day</td>
-    </tr>
-</table>
+| |  Monday | Tuesday | Wednesday | Thursday | Friday |
+| --- | --- | --- | --- | --- | --- | 
+| Week 1 | A Day | Holiday: No Class | B Day | C Day | D Day | 
+| Week 2 | E Day | A Day | B Day | C Day | D Day | 
+| Week 3 | E Day | A Day | B Day | C Day | D Day | 
+| Week 4 | E Day | Holiday: No Class | A Day | B Day | C Day | 
 
 Such an institution might need decide to schedule classes on a custom length cycle in order to optimize teacher and class availability. That in and of itself is not very complicated. The iCalendar standard allows for events to recur every n-number of days. What makes this task difficult is the tendency for these institutions to pause and resume their schedules around vacations, holidays and school events in which classes are not held.
 
@@ -52,41 +23,12 @@ The flexible calendar can easily adjust for the holiday by adding a couple of da
 
 In a traditional calendar would need to add two Tuesday classes one day after another which wouldn't fall into the typical rhythm of the school year.
 
-<table>
-    <tr><th></th><th>Monday</th><th>Tuesday</th><th>Wednesday</th><th>Thursday</th><th>Friday</th></tr>
-    <tr>
-        <th>Week 1</th>
-        <td>Section A</td>
-        <td>Holiday: No Class</td>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-    </tr>
-    <tr>
-        <th>Week 2</th>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-    </tr>
-    <tr>
-        <th>Week 3</th>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-    </tr>
-    <tr>
-        <th>Week 4</th>
-        <td>Section A</td>
-        <td>Holiday: No Class</td>
-        <td>Section A</td>
-        <td>Section B</td>
-        <td>Section A</td>
-    </tr>
-</table>
+| |Monday|Tuesday|Wednesday|Thursday|Friday |
+| --- | --- | --- | --- | --- | --- | 
+| Week 1 | Section A | Holiday: No Class | Section A | Section B | Section A |
+| Week 2 | Section A | Section B | Section A | Section B | Section A |
+| Week 3 | Section A | Section B | Section A | Section B | Section A |
+| Week 4 | Section A | Holiday: No Class | Section A | Section B | Section A |
 
 ### How does it work? ###
 
